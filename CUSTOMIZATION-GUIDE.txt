@@ -1,0 +1,112 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║              VALENTINE'S DAY SPECIAL - EASY GUIDE                          ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+HOW TO RUN:
+───────────
+1. Go to the "public" folder
+2. Double-click "index.html" - it opens in your browser!
+
+
+HOW TO ADD HER PHOTO:
+─────────────────────
+1. Copy her photo to the "public" folder (same folder as index.html)
+2. Rename the photo to: her-photo.jpg (or remember the exact name)
+3. Open index.html in Notepad
+4. Find this line (around line 230):
+
+      photo: "her-photo.jpg",
+
+5. Change "her-photo.jpg" to your photo filename
+6. Save and refresh browser
+
+
+HOW TO EDIT NAME AND MESSAGES:
+──────────────────────────────
+Open index.html in Notepad and find this section (around line 220):
+
+    const config = {
+
+      // HER NAME
+      name: "My Love",                    <-- CHANGE THIS
+
+      // HER PHOTO
+      photo: "her-photo.jpg",             <-- CHANGE THIS
+
+      // INTRO MESSAGES
+      introMessages: [
+        "Hey {name}...",                  <-- CHANGE THESE
+        "I have something to tell you...",
+        "I've been thinking...",
+        "And I finally have the courage..."
+      ],
+
+      // YOUR LOVE LETTER
+      letterMessage: "Every moment...",   <-- CHANGE THIS
+
+      // THE BIG QUESTION
+      question: "Will You Be My Valentine?",
+
+      // MESSAGE AFTER SHE CLICKS YES
+      yesMessage: "You just made me...",  <-- CHANGE THIS
+
+      // BACKGROUND MUSIC (optional)
+      songUrl: ""                         <-- ADD MP3 FILENAME
+    };
+
+
+EXAMPLE CUSTOMIZATION:
+──────────────────────
+
+    const config = {
+
+      name: "Sarah",
+
+      photo: "sarah-pic.jpg",
+
+      introMessages: [
+        "Hey Sarah...",
+        "You know what?",
+        "I've been wanting to ask you something...",
+        "Something really important..."
+      ],
+
+      letterMessage: "From the moment I met you, my life changed forever. Your beautiful eyes, your amazing smile, everything about you is perfect. I love spending every moment with you.",
+
+      question: "Will You Be My Valentine?",
+
+      yesMessage: "I love you so much Sarah! You made me the happiest person!",
+
+      songUrl: "perfect-ed-sheeran.mp3"
+    };
+
+
+FOLDER STRUCTURE:
+─────────────────
+public/
+├── index.html        <-- Double-click to open
+├── her-photo.jpg     <-- Put her photo here
+└── romantic-song.mp3 <-- Put music here (optional)
+
+
+TIPS:
+─────
+- Use {name} in messages and it will be replaced with her actual name
+- Photo should be .jpg, .png, or .jpeg
+- Music should be .mp3
+- Save the file after editing, then refresh browser to see changes
+
+
+PROMPT FOR NEXT TIME:
+─────────────────────
+"I have a Valentine's Day project with index.html. It has animated messages, 
+floating hearts, her photo, and a runaway No button. All customization is at 
+the top of index.html in the config section. I need help with: [your request]"
+
+
+================================================================================
+                         Happy Valentine's Day!
+================================================================================
