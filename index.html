@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>For You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      color: white;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 20px;
+      position: relative;
+      z-index: 10;
+    }
+    :root {
+      --heart-color: #ff6b8a;
+      --button-yes: #22c55e;
+      --button-no: #ef4444;
+      --text-color: #ff6b8a;
+      --glow: rgba(255, 107, 138, 0.3);
+    }
+    .message {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      color: var(--text-color);
+      text-align: center;
+      text-shadow: 0 0 20px var(--glow);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+      padding: 0 10px;
+    }
+    .typed-message {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: white;
+      text-align: center;
+      max-width: 90%;
+      line-height: 1.8;
+      margin-top: 20px;
+      padding: 0 15px;
+    }
+    .question {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      color: var(--text-color);
+      text-shadow: 0 0 30px var(--glow);
+      margin-bottom: 40px;
+      text-align: center;
+      padding: 0 10px;
+    }
+    .buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0 20px;
+    }
+    .btn {
+      padding: 15px 40px;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      touch-action: manipulation;
+    }
+    .btn-yes {
+      background: var(--button-yes);
+      color: white;
+      box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+    }
+    .btn-yes:hover, .btn-yes:active {
+      transform: scale(1.1);
+      box-shadow: 0 0 50px rgba(34, 197, 94, 0.8);
+    }
+    .btn-no {
+      background: var(--button-no);
+      color: white;
+      position: absolute;
+      transition: all 0.1s ease;
+    }
+    .celebration { text-align: center; padding: 20px; }
+    .celebration h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.5rem, 10vw, 4rem);
+      color: var(--text-color);
+      text-shadow: 0 0 30px var(--glow);
+      margin-bottom: 20px;
+    }
+    .celebration p {
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: white;
+      padding: 0 20px;
+    }
+    .big-heart {
+      font-size: clamp(5rem, 20vw, 8rem);
+      animation: pulse 1s ease infinite;
+      margin: 20px 0;
+    }
+    .photo-container { margin: 20px 0; }
+    .photo {
+      width: clamp(150px, 40vw, 200px);
+      height: clamp(150px, 40vw, 200px);
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--heart-color);
+      box-shadow: 0 0 30px var(--glow);
+      animation: pulse 2s ease infinite;
+    }
+    .hearts-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      font-size: 24px;
+      opacity: 0;
+      animation: floatUp 6s ease-in-out infinite;
+    }
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 30px; height: 40px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: balloonFloat 8s ease-in-out infinite;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -25px; left: 50%;
+      transform: translateX(-50%);
+      width: 2px; height: 25px;
+      background: rgba(255,255,255,0.5);
+    }
+    .confetti {
+      position: absolute;
+      top: -20px;
+      width: 8px; height: 8px;
+      opacity: 0;
+      animation: confettiFall 4s ease-in-out infinite;
+    }
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes balloonFloat {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 0.9; }
+      100% { transform: translateY(-120vh) translateX(20px); opacity: 0; }
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    .hidden { display: none; }
+    @media (max-width: 480px) {
+      .buttons { gap: 15px; }
+      .btn { padding: 12px 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hearts-container" id="hearts"></div>
+<div class="hearts-container" id="balloons"></div>
+<div class="hearts-container" id="confetti"></div>
+
+<div class="container">
+  <div id="screen1" class="screen">
+    <h1 class="message" id="currentMessage"></h1>
+  </div>
+  <div id="screen2" class="screen hidden">
+    <div class="photo-container" id="photoContainer"></div>
+    <h1 class="message">A Message For You</h1>
+    <p class="typed-message" id="typedText"></p>
+  </div>
+  <div id="screen3" class="screen hidden">
+    <h1 class="question" id="questionText"></h1>
+    <div class="buttons">
+      <button class="btn btn-yes" onclick="sayYes()">Yes!</button>
+      <button class="btn btn-no" id="noBtn" onmouseover="runAway()" ontouchstart="runAway()">No</button>
+    </div>
+  </div>
+  <div id="screen4" class="screen hidden celebration">
+    <div class="big-heart">&#10084;</div>
+    <h1 id="celebrationTitle">Yayyyy!</h1>
+    <p id="celebrationMessage"></p>
+  </div>
+</div>
+
+<script>
+/*
+================================================================================
+================================================================================
+
+   EDIT HERE - EVERYTHING YOU NEED TO CHANGE IS BELOW
+   
+   STEP 1: Change her name
+   STEP 2: Add her photo (put photo in same folder OR use online link)
+   STEP 3: Change the messages
+   STEP 4: Save and open in browser!
+
+================================================================================
+================================================================================
+*/
+
+// STEP 1: HER NAME (change "My Love" to her name)
+const HER_NAME = "My Love";
+
+
+// STEP 2: HER PHOTO
+// Option A: Put photo in same folder, write filename like "myphoto.jpg"
+// Option B: Use online link from imgbb.com like "https://i.ibb.co/xxxxx/photo.jpg"
+// Option C: Leave empty "" for no photo
+const HER_PHOTO = "her-photo.jpg";
+
+
+// STEP 3: INTRO MESSAGES (these show one by one at start)
+// Use {name} where you want her name to appear
+const INTRO_MESSAGES = [
+  "Hey {name}...",
+  "I have something to tell you...",
+  "I've been thinking about this for a while...",
+  "And I finally have the courage to say it..."
+];
+
+
+// STEP 4: YOUR LOVE LETTER (this gets typed letter by letter)
+const LOVE_LETTER = "Every moment with you feels like a beautiful dream. Your smile lights up my darkest days, and your laugh is my favorite sound in the world. I can't imagine my life without you in it.";
+
+
+// STEP 5: THE BIG QUESTION
+const THE_QUESTION = "Will You Be My Valentine?";
+
+
+// STEP 6: MESSAGE AFTER SHE SAYS YES
+const YES_MESSAGE = "You just made me the happiest person alive!";
+
+
+// STEP 7: MUSIC (optional)
+// Put mp3 in same folder and write filename like "song.mp3"
+// Or use online link
+// Leave empty "" for no music
+const MUSIC = "";
+
+
+/*
+================================================================================
+   STOP! DO NOT EDIT BELOW THIS LINE
+================================================================================
+*/
+
+let messageIndex = 0;
+function replaceName(text) { return text.replace(/{name}/g, HER_NAME); }
+
+function createHearts() {
+  const c = document.getElementById('hearts');
+  const h = ['&#10084;', '&#128149;', '&#128151;', '&#128150;', '&#128157;'];
+  for (let i = 0; i < 15; i++) {
+    const el = document.createElement('div');
+    el.className = 'heart';
+    el.innerHTML = h[Math.floor(Math.random() * h.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDelay = Math.random() * 6 + 's';
+    el.style.fontSize = (Math.random() * 15 + 12) + 'px';
+    c.appendChild(el);
+  }
+}
+
+function createBalloons() {
+  const c = document.getElementById('balloons');
+  const colors = ['#ff6b8a', '#ff8fab', '#ffb3c6', '#ffc8dd', '#ff5c8d'];
+  for (let i = 0; i < 12; i++) {
+    const el = document.createElement('div');
+    el.className = 'balloon';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDelay = Math.random() * 5 + 's';
+    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    c.appendChild(el);
+  }
+}
+
+function createConfetti() {
+  const c = document.getElementById('confetti');
+  const colors = ['#ff6b8a', '#ffd700', '#ff8fab', '#ffffff', '#ff5c8d'];
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animationDelay = Math.random() * 4 + 's';
+    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    c.appendChild(el);
+  }
+}
+
+function showIntroMessages() {
+  const el = document.getElementById('currentMessage');
+  function showNext() {
+    if (messageIndex < INTRO_MESSAGES.length) {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.textContent = replaceName(INTRO_MESSAGES[messageIndex]);
+      el.style.animation = 'fadeInUp 1s ease forwards';
+      messageIndex++;
+      setTimeout(showNext, 2500);
+    } else {
+      setTimeout(showScreen2, 1000);
+    }
+  }
+  showNext();
+}
+
+function showScreen2() {
+  document.getElementById('screen1').classList.add('hidden');
+  document.getElementById('screen2').classList.remove('hidden');
+  
+  if (HER_PHOTO && HER_PHOTO !== "") {
+    const pc = document.getElementById('photoContainer');
+    const img = document.createElement('img');
+    img.src = HER_PHOTO;
+    img.alt = HER_NAME;
+    img.className = 'photo';
+    img.onerror = function() { this.style.display = 'none'; };
+    pc.appendChild(img);
+  }
+  
+  const el = document.getElementById('typedText');
+  const msg = replaceName(LOVE_LETTER);
+  let i = 0;
+  function typeChar() {
+    if (i < msg.length) {
+      el.textContent += msg[i];
+      i++;
+      setTimeout(typeChar, 50);
+    } else {
+      setTimeout(showScreen3, 2000);
+    }
+  }
+  typeChar();
+}
+
+function showScreen3() {
+  document.getElementById('screen2').classList.add('hidden');
+  document.getElementById('screen3').classList.remove('hidden');
+  document.getElementById('questionText').textContent = THE_QUESTION;
+}
+
+function sayYes() {
+  document.getElementById('screen3').classList.add('hidden');
+  document.getElementById('screen4').classList.remove('hidden');
+  document.getElementById('celebrationMessage').textContent = replaceName(YES_MESSAGE);
+  createBalloons();
+  createConfetti();
+  if (MUSIC && MUSIC !== "") {
+    const audio = new Audio(MUSIC);
+    audio.play().catch(e => {});
+  }
+}
+
+function runAway() {
+  const btn = document.getElementById('noBtn');
+  const maxX = window.innerWidth - 100;
+  const maxY = window.innerHeight - 60;
+  btn.style.left = Math.random() * maxX + 'px';
+  btn.style.top = Math.random() * maxY + 'px';
+}
+
+window.onload = function() {
+  createHearts();
+  showIntroMessages();
+};
+</script>
+
+</body>
+</html>
